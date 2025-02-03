@@ -1,12 +1,39 @@
 import { useEffect, useState } from 'react'
-
+import Keyboard from './Keyboard.tsx'
 import './BoardStyles.scss'
+
+type MatchedObj = {
+    exact: string[],
+    almost: string[]
+}
 
 function Board({ word }: { word: string }) {
     const [rowCount, updateRowCount] = useState(0);
     const [choiceCount, setChoiceCount] = useState(0);
     const [gameStatus, updateGameStatus] = useState('active');
     const [board, updateBoard] = useState<string[]>(['     ', '     ', '     ', '     ', '     ']);
+    const [usedChars, updateUsedChars] = useState<string[]>([])
+    const [matched, updateMatched] = useState<MatchedObj>({exact:[], almost:[]})
+
+    const matchedWord = (guess: string) => {
+        [...guess].forEach((letter, i) => {
+            if(word.includes(letter)) {
+                if(word[i] === letter) {
+                    if(!matched.exact.includes(letter)) matched.exact.push(letter)
+                } else {
+                    if(!matched.almost.includes(letter)) matched.almost.push(letter)
+                }
+            }
+        })
+        console.dir(matched)
+        updateMatched(matched)
+    }
+
+    const addToUsedChars = (guess: string) => {
+        matchedWord(guess)
+        const setGuess = [...new Set(usedChars.concat([...guess]))]
+        updateUsedChars(setGuess)
+    }
 
     const updateRow = (row: string) => board.splice(rowCount, 1, row) && updateBoard(board)
 
@@ -24,9 +51,11 @@ function Board({ word }: { word: string }) {
             updateGameStatus('winner')
         }
 
-        if(rowCount === 5) {
+        if(rowCount === 4) {
             updateGameStatus('over')
         }
+
+        addToUsedChars(guess)
     }
 
     const setChoice = () => {
@@ -94,6 +123,8 @@ function Board({ word }: { word: string }) {
     });
 
     return (
+        <>
+        <div className="answer">{(['winner', 'over'].includes(gameStatus)) ? `Answer: ${word}` : null}</div>
         <div className="board-wrapper">
             {board.map((row, rIndex) => {
                 return <div key={rIndex} className={(rIndex === rowCount) ? 'row-wrapper active' : 'row-wrapper'}>
@@ -106,6 +137,8 @@ function Board({ word }: { word: string }) {
             })}
             <h2> Game Status: {gameStatus.toUpperCase()}</h2>
         </div>
+        <Keyboard used={usedChars} matched={matched}/>
+        </>
     )
 }
 
