@@ -1,0 +1,50 @@
+.board-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    .row-wrapper {
+        display: flex;
+        gap: 10px;
+
+        &.active {
+
+        }
+
+        &>div {
+            place-content: center;
+            width: 50px;
+            height: 50px;
+            border: 2px solid darkgray;
+            font-size: 20px;
+            font-weight: 800;
+            margin: 2px;
+
+            &:not(:empty) {
+                border: 2px solid whitesmoke;
+            }
+        }
+
+        &:not(.active) {
+
+            div.exact {
+                background: #538d4e;
+                border: none;
+                padding: 2px;
+            }
+
+            div.almost {
+                background: #b59f3b;
+                border: none;
+                padding: 2px;
+            }
+
+            div.nope {
+                background: darkgray;
+                border: none;
+                padding: 2px;
+            }
+        }
+    }
+}

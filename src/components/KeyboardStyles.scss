@@ -1,0 +1,31 @@
+
+.keyboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    .row {
+        display: flex;
+        gap: 20px;
+
+        &>div {
+            display: grid;
+            place-content: center;
+            border: 1px solid #fff;
+            height: 45px;
+            width: 45px;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &>* {
+                pointer-events: none;
+            }
+        }
+
+        .control {
+            width: 75px;
+        }
+    }
+}
