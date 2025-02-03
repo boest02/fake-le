@@ -7,7 +7,7 @@ function Board({ word }: { word: string }) {
     const [choiceCount, setChoiceCount] = useState(0);
     const [gameStatus, updateGameStatus] = useState('active');
     const [board, updateBoard] = useState<string[]>(['     ', '     ', '     ', '     ', '     ']);
-    const [reset, setReset] = useState(false);
+    // const [reset, setReset] = useState(false);
 
     const updateRow = (row: string) => board.splice(rowCount, 1, row) && updateBoard(board)
 
