@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import './KeyboardStyles.scss'
 
 const qwertyKeyboard: string[][] = [
@@ -24,8 +24,10 @@ function Keyboard() {
     }
 
     const onscreenKeyboard = (evt: Event) => {
-      console.log(evt?.target?.dataset?.action)
-      fireKeyBoardEvent(evt?.target?.dataset?.action)
+      const target = evt.target as HTMLElement;
+      const action: string | null = target.getAttribute('data-action');
+      console.log(action)
+      if(action != null) fireKeyBoardEvent(action)
     }
 
     document.querySelector('.keyboard-wrapper')?.addEventListener('click', onscreenKeyboard, false)

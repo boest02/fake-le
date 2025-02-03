@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import './BoardStyles.scss'
 
@@ -7,7 +7,6 @@ function Board({ word }: { word: string }) {
     const [choiceCount, setChoiceCount] = useState(0);
     const [gameStatus, updateGameStatus] = useState('active');
     const [board, updateBoard] = useState<string[]>(['     ', '     ', '     ', '     ', '     ']);
-    // const [reset, setReset] = useState(false);
 
     const updateRow = (row: string) => board.splice(rowCount, 1, row) && updateBoard(board)
 
@@ -43,50 +42,7 @@ function Board({ word }: { word: string }) {
         setChoiceCount(choiceCount - 1)
     }
 
-    const resetGame = () => {
-        setReset(true)
-    }
-
-
-    const listenerKeyBoard = useCallback((el: Event) => {
-
-        const key = el.key.toUpperCase();
-        console.log("keydown: ", key)
-
-        if(gameStatus === 'over' || gameStatus === 'winner') {
-            if(key === 'ENTER') {
-                resetGame()
-                return;
-            }
-            return;
-        }
-
-        //single char
-        if (key.length === 1 && key.match(/[A-Z]/g)) {
-            console.log("Char: ", key)
-            addNewCharacter(key)
-            return;
-        }
-
-        if (key === 'ENTER') {
-            console.log("User hit Enter", { choiceCount })
-            if (choiceCount === 5) {
-                console.log("Set Choice!")
-                setChoice()
-            }
-        }
-
-        if (key === 'BACKSPACE') {
-            console.log("User hit Backspace", { choiceCount })
-            if (choiceCount > 0) {
-                console.log("Move Back!")
-                moveBack()
-            }
-        }
-    })
-
-
-    const checkLetter = (letter, position) => {
+    const checkLetter = (letter: string, position: number) => {
         if(letter === ' ') return '' //skip
 
         if(word[position] === letter) return 'exact'
@@ -97,12 +53,45 @@ function Board({ word }: { word: string }) {
     }
 
     useEffect(() => {
+        const listenerKeyBoard = (el: KeyboardEvent) => {
+
+            const key = el.key.toUpperCase();
+            console.log("keydown: ", key)
+
+            if(gameStatus === 'over' || gameStatus === 'winner') {
+                return; //stop when done
+            }
+
+            //single char
+            if (key.length === 1 && key.match(/[A-Z]/g)) {
+                console.log("Char: ", key)
+                addNewCharacter(key)
+                return;
+            }
+
+            if (key === 'ENTER') {
+                console.log("User hit Enter", { choiceCount })
+                if (choiceCount === 5) {
+                    console.log("Set Choice!")
+                    setChoice()
+                }
+            }
+
+            if (key === 'BACKSPACE') {
+                console.log("User hit Backspace", { choiceCount })
+                if (choiceCount > 0) {
+                    console.log("Move Back!")
+                    moveBack()
+                }
+            }
+        }
+
         document.addEventListener("keydown", listenerKeyBoard, false);
 
         return () => {
             document.removeEventListener("keydown", listenerKeyBoard, false);
         };
-    }, [listenerKeyBoard]);
+    });
 
     return (
         <div className="board-wrapper">
