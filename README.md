@@ -43,6 +43,8 @@ npm run dev
 - fill in the onscreen keyboard of used words
 - add a way to play again
 - add support for only valid words (possibly with this https://api.dictionaryapi.dev/api/v2/entries/en/<word>)
+- add animations/transitions
+
 
 
 
