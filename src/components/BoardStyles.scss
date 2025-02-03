@@ -1,3 +1,11 @@
+
+.answer {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    margin-top: -10px;
+}
+
 .board-wrapper {
     display: flex;
     flex-direction: column;
@@ -7,10 +15,6 @@
     .row-wrapper {
         display: flex;
         gap: 10px;
-
-        &.active {
-
-        }
 
         &>div {
             place-content: center;

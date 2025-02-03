@@ -22,6 +22,24 @@
             &>* {
                 pointer-events: none;
             }
+
+            &.exact {
+                background: #538d4e;
+                border: none;
+                padding: 2px;
+            }
+
+            &.almost {
+                background: #b59f3b;
+                border: none;
+                padding: 2px;
+            }
+
+            &.used {
+                background: darkgray;
+                border: none;
+                padding: 2px;
+            }
         }
 
         .control {
